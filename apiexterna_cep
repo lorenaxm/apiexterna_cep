@@ -1,0 +1,20 @@
+Console.WriteLine("Digite o CEP: ");
+string cep = Console.ReadLine();
+
+using (HttpClient client = new HttpClient())
+{
+    try
+    {
+        HttpResponseMessage response = await client.GetAsync($"https://viacep.com.br/ws/{cep}/json/");
+        response.EnsureSuccessStatusCode();
+
+        string responseBody = await response.Content.ReadAsStringAsync();
+        Console.WriteLine(responseBody);
+    }
+
+    catch (HttpRequestException)
+    {
+        Console.WriteLine("Erro ao realizar requisição HTTP. ");
+    }
+
+}
